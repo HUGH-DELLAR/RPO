@@ -37,33 +37,35 @@ find_library( # Sets the name of the path variable.
               log )
 
 # add spdlog
+add_definitions(-DSPDLOG_COMPILED_LIB)
 add_library(spdlog STATIC IMPORTED)
 set_target_properties(
-	spdlog PROPERTIES IMPORTED_LOCATION "C:/Users/Reginleif/Desktop/knowledge_base/labs_tasks/rpo-baltin-2021/libs/spdlog/build/x86_64/libspdlog.a"
+        spdlog PROPERTIES IMPORTED_LOCATION C:/Users/xasan/AndroidStudioProjects/libs/spdlog/build/${ANDROID_ABI}/libspdlog.a
+)
+
+target_include_directories(
+        native-lib PUBLIC
+        C:/Users/xasan/AndroidStudioProjects/libs/spdlog/spdlog/include
+        C:/Users/xasan/AndroidStudioProjects/libs/mbedtls/mbedtls/include
 )
 
 add_library(mbedcrypto SHARED IMPORTED)
 set_target_properties(
-	mbedcrypto PROPERTIES IMPORTED_LOCATION "C:/Users/Reginleif/Desktop/knowledge_base/labs_tasks/rpo-baltin-2021/libs/mbedtls/build/x86_64/library/libmbedcrypto.so"
+        mbedcrypto PROPERTIES IMPORTED_LOCATION ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
 )
 
-target_include_directories(
-	native-lib PUBLIC
-		"C:/Users/Reginleif/Desktop/knowledge_base/labs_tasks/rpo-baltin-2021/libs/spdlog/spdlog/include/"
-		"C:/Users/Reginleif/Desktop/knowledge_base/labs_tasks/rpo-baltin-2021/libs/mbedtls/mbedtls/include"
-)
-
-
+configure_file(
+        C:/Users/xasan/AndroidStudioProjects/libs/mbedtls/build/${ANDROID_ABI}/library/libmbedcrypto.so
+        ${CMAKE_CURRENT_SOURCE_DIR}/../cmakeLibs/${ANDROID_ABI}/libmbedcrypto.so
+        COPYONLY)
 # Specifies libraries CMake should link to your target library. You
 # can link multiple libraries, such as libraries you define in this
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-			native-lib
-			spdlog
-			mbedcrypto
+                       native-lib
+                       spdlog
+                       mbedcrypto
                        # Links the target library to the log library
                        # included in the NDK.
                        ${log-lib} )
-
-

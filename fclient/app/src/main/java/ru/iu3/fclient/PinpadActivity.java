@@ -22,14 +22,14 @@ public class PinpadActivity extends Activity {
 
         ShuffleKeys();
 
-        findViewById(R.id.btnKeyOK).setOnClickListener((View)-> {
+        findViewById(R.id.btnOK).setOnClickListener((View)-> {
             Intent it = new Intent();
             it.putExtra("pin", pin);
             setResult(RESULT_OK, it);
             finish();
         });
 
-        findViewById(R.id.btnKeyC).setOnClickListener((View)-> {
+        findViewById(R.id.btnReset).setOnClickListener((View)-> {
             pin="";
             tvPin.setText("");
         });
